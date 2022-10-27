@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class StudentController {
-
+  
     @Autowired
     StudentRepository studentRepository;
 

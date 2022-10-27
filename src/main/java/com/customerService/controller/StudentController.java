@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class StudentController {
-  
+
     @Autowired
     StudentRepository studentRepository;
 
+    @Autowired
+    StudentRepository studentRepostory;
     @PostMapping(value = "student/create")
     public void createStudent(@RequestBody Student student){
         studentRepository.createStudent(student);

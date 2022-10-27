@@ -3,6 +3,7 @@ package com.customerService.controller;
 
 import com.customerService.model.Customer;
 import com.customerService.repository.CustomerRepository;
+import com.customerService.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerService customerRepository;
 
     @PostMapping(value = "/customer/create")
     public void createCustomer(@RequestBody Customer customer){

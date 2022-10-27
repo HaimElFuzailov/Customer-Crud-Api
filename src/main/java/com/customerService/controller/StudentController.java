@@ -11,6 +11,8 @@ public class StudentController {
 
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    StudentRepository studentReposiry;
 
     @PostMapping(value = "student/create")
     public void createStudent(@RequestBody Student student){

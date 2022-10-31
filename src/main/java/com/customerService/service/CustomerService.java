@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface CustomerService {
 
-    void createCustomer(Customer customer);
+    void createCustomer(Customer customer) throws Exception;
 
-    void updateCustomerById(Long customerId, Customer customer);
+    void updateCustomerById(Long customerId, Customer customer) throws Exception;
 
     void deleteCustomerById(Long id);
 

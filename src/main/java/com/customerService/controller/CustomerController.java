@@ -16,13 +16,13 @@ public class CustomerController {
     private CustomerService customerRepository;
 
     @PostMapping(value = "/customer/create")
-    public void createCustomer(@RequestBody Customer customer){
+    public void createCustomer(@RequestBody Customer customer) throws Exception {
         customerRepository.createCustomer(customer);
     }
 
     @PutMapping(value = "/customer/{customerId}/update")
     public void updateCustomerById(@PathVariable Long customerId,
-                                   @RequestBody Customer customer){
+                                   @RequestBody Customer customer) throws Exception {
         customerRepository.updateCustomerById(customerId, customer);
     }
 

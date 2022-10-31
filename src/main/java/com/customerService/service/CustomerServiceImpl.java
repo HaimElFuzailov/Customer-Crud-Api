@@ -1,7 +1,9 @@
 package com.customerService.service;
 
 import com.customerService.model.Customer;
+import com.customerService.model.CustomerStatus;
 import com.customerService.repository.CustomerRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +14,43 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Override
-    public void createCustomer(Customer customer) {
-        customerRepository.createCustomer(customer);
+    public void createCustomer(Customer customer) throws Exception {
+            System.out.println("Starting to create new customer: " + objectMapper.writeValueAsString(customer));
+            String customerAsString = objectMapper.writeValueAsString(customer);
+            Customer customerFromString  = objectMapper.readValue(customerAsString, Customer.class);
+        if (customer.getStatus() == CustomerStatus.VIP) {
+           List<Customer> vipCustomers =  customerRepository.getALLCustomerByStatus(CustomerStatus.VIP);
+           if(vipCustomers.size() < 10){
+               customerRepository.createCustomer(customer);
+           }else {
+               throw new Exception("Can't create new customer with VIP status, Out of limit");
+           }
+        } else {
+            customerRepository.createCustomer(customer);
+        }
     }
-
     @Override
-    public void updateCustomerById(Long customerId, Customer customer) {
-        customerRepository.updateCustomerById(customerId, customer);
+    public void updateCustomerById(Long customerId, Customer customer) throws Exception {
+
+        if (customer.getStatus() == CustomerStatus.VIP) {
+            Customer existingCustomer= customerRepository.getCustomerById(customerId);
+            if(existingCustomer.getStatus() != CustomerStatus.VIP){
+                List<Customer> vipCustomers =  customerRepository.getALLCustomerByStatus(CustomerStatus.VIP);
+                if(vipCustomers.size() < 10){
+                    customerRepository.updateCustomerById(customerId, customer);
+                }else {
+                    throw new Exception("Can't create new customer with VIP status, Out of limit");
+                }
+           }else {
+                customerRepository.updateCustomerById(customerId, customer);
+            }
+        }else {
+            customerRepository.updateCustomerById(customerId, customer);
+        }
     }
 
     @Override

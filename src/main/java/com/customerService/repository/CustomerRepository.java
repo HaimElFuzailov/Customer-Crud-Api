@@ -1,6 +1,7 @@
 package com.customerService.repository;
 
 import com.customerService.model.Customer;
+import com.customerService.model.CustomerStatus;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface CustomerRepository {
     List<Customer> getCustomersByFirstName(String firstName);
     List<Customer> getAllCustomers();
     List<Long> getCustomerIdsByFirstName(String firstName);
+
+    List<Customer> getALLCustomerByStatus(CustomerStatus status);
 }

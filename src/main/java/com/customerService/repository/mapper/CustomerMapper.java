@@ -16,7 +16,7 @@ public class CustomerMapper implements RowMapper<Customer> {
                 rs.getString("first_name"),
                 rs.getString("last_name"),
                 rs.getString("email"),
-                CustomerStatus.valueOf( rs.getString("status"))
+                CustomerStatus.valueOf(rs.getString("status"))
         );
     }
 }

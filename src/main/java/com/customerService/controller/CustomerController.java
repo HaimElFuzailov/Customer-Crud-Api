@@ -2,8 +2,9 @@ package com.customerService.controller;
 
 
 import com.customerService.model.Customer;
-import com.customerService.repository.CustomerRepository;
+import com.customerService.model.InternalCustomer;
 import com.customerService.service.CustomerService;
+import com.customerService.service.InternalCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,42 +14,50 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
-    private CustomerService customerRepository;
+    private CustomerService customerService;
+
+    @Autowired
+    private InternalCustomerService internalCustomerService;
 
     @PostMapping(value = "/customer/create")
-    public void createCustomer(@RequestBody Customer customer) throws Exception {
-        customerRepository.createCustomer(customer);
+    public Long createCustomer(@RequestBody Customer customer) throws Exception {
+        return customerService.createCustomer(customer);
     }
 
     @PutMapping(value = "/customer/{customerId}/update")
     public void updateCustomerById(@PathVariable Long customerId,
                                    @RequestBody Customer customer) throws Exception {
-        customerRepository.updateCustomerById(customerId, customer);
+        customerService.updateCustomerById(customerId, customer);
     }
 
     @DeleteMapping(value = "/customer/{customerId}/delete")
-    public void deleteCustomerById(@PathVariable Long customerId){
-        customerRepository.deleteCustomerById(customerId);
+    public void deleteCustomerById(@PathVariable Long customerId) throws Exception {
+        customerService.deleteCustomerById(customerId);
     }
 
     @GetMapping(value = "/customer/{customerId}")
     public Customer getCustomerById(@PathVariable Long customerId){
-        return customerRepository.getCustomerById(customerId);
+        return customerService.getCustomerById(customerId);
     }
 
     @GetMapping(value = "/customer/{firstName}/all")
     public List<Customer> getCustomersByFirstName(@PathVariable String firstName){
-        return customerRepository.getCustomersByFirstName(firstName);
+        return customerService.getCustomersByFirstName(firstName);
     }
 
     @GetMapping(value = "/customer/all")
     public List<Customer> getAllCustomers(){
-        return customerRepository.getAllCustomers();
+        return customerService.getAllCustomers();
     }
 
     @GetMapping(value = "/customerId/{firstName}/all")
     public List<Long> getCustomerIdsByFirstName(@PathVariable String firstName){
-        return customerRepository.getCustomerIdsByFirstName(firstName);
+        return customerService.getCustomerIdsByFirstName(firstName);
+    }
+
+    @GetMapping(value = "internalCustomer/{customerId}")
+    public InternalCustomer getInternalCustomerById(@PathVariable Long customerId){
+        return internalCustomerService.getInternalCustomerById(customerId);
     }
 }
 

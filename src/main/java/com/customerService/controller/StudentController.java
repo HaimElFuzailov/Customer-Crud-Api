@@ -2,7 +2,6 @@ package com.customerService.controller;
 
 import com.customerService.model.Student;
 import com.customerService.repository.StudentRepository;
-import com.customerService.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
 
     @Autowired
-    StudentService studentRepository;
+    StudentRepository studentRepository;
 
     @PostMapping(value = "student/create")
     public void createStudent(@RequestBody Student student){

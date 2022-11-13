@@ -19,8 +19,8 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     @Override
     public void createStudent(Student student) {
-        String sql = "INSERT INTO " + STUDENT_TABLE_NAME + " (first_name, last_name, email) VALUES (?, ?, ? ,?)";
-        jdbcTemplate.update(sql, student.getFirstName(), student.getLastName(), student.getEmail(),student.getPaymentMethod().name());
+        String sql = "INSERT INTO " + STUDENT_TABLE_NAME + " (first_name, last_name, email) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, student.getFirstName(), student.getLastName(), student.getEmail());
     }
 
     @Override

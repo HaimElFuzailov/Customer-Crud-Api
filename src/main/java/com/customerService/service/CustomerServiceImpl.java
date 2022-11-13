@@ -14,48 +14,51 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Autowired
     CustomerRepository customerRepository;
+
     @Autowired
     ObjectMapper objectMapper;
 
     @Override
-    public void createCustomer(Customer customer) throws Exception {
-            System.out.println("Starting to create new customer: " + objectMapper.writeValueAsString(customer));
-            String customerAsString = objectMapper.writeValueAsString(customer);
-            Customer customerFromString  = objectMapper.readValue(customerAsString, Customer.class);
-        if (customer.getStatus() == CustomerStatus.VIP) {
-           List<Customer> vipCustomers =  customerRepository.getALLCustomerByStatus(CustomerStatus.VIP);
-           if(vipCustomers.size() < 10){
-               customerRepository.createCustomer(customer);
-           }else {
-               throw new Exception("Can't create new customer with VIP status, Out of limit");
-           }
+    public Long createCustomer(Customer customer) throws Exception {
+        if(customer.getStatus() == CustomerStatus.VIP){
+            List<Customer> vipCustomers = customerRepository.getAllCustomersByStatus(CustomerStatus.VIP);
+            if(vipCustomers.size() < 10 ) {
+                return customerRepository.createCustomer(customer);
+            } else {
+                throw new Exception("Can't create new customer with VIP status, Out of limit");
+            }
         } else {
-            customerRepository.createCustomer(customer);
+            return customerRepository.createCustomer(customer);
         }
     }
+
     @Override
     public void updateCustomerById(Long customerId, Customer customer) throws Exception {
-
-        if (customer.getStatus() == CustomerStatus.VIP) {
-            Customer existingCustomer= customerRepository.getCustomerById(customerId);
+        if(customer.getStatus() == CustomerStatus.VIP){
+            Customer existingCustomer = customerRepository.getCustomerById(customerId);
             if(existingCustomer.getStatus() != CustomerStatus.VIP){
-                List<Customer> vipCustomers =  customerRepository.getALLCustomerByStatus(CustomerStatus.VIP);
+                List<Customer> vipCustomers = customerRepository.getAllCustomersByStatus(CustomerStatus.VIP);
                 if(vipCustomers.size() < 10){
                     customerRepository.updateCustomerById(customerId, customer);
-                }else {
-                    throw new Exception("Can't create new customer with VIP status, Out of limit");
+                } else {
+                    throw new Exception("Can't update customer status to VIP, Out of limit");
                 }
-           }else {
+            } else {
                 customerRepository.updateCustomerById(customerId, customer);
             }
-        }else {
+        } else {
             customerRepository.updateCustomerById(customerId, customer);
         }
     }
 
     @Override
-    public void deleteCustomerById(Long id) {
-        deleteCustomerById(id);
+    public void deleteCustomerById(Long id) throws Exception {
+        Customer existingCustomer =  customerRepository.getCustomerById(id);
+        if(existingCustomer != null){
+            customerRepository.deleteCustomerById(id);
+        } else {
+            throw new Exception("The customer id: " + id + " is not existing, so we can't delete it");
+        }
     }
 
     @Override
@@ -78,5 +81,3 @@ public class CustomerServiceImpl implements CustomerService{
         return customerRepository.getCustomerIdsByFirstName(firstName);
     }
 }
-
-

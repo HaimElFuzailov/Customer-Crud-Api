@@ -1,7 +1,6 @@
 package com.customerService.repository.mapper;
 
 import com.customerService.model.Student;
-import com.customerService.model.StudentStatus;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -15,8 +14,7 @@ public class StudentMapper implements RowMapper<Student> {
                 rs.getLong("id"),
                 rs.getString("first_name"),
                 rs.getString("last_name"),
-                rs.getString("email"),
-                StudentStatus.valueOf( rs.getString("status"))
+                rs.getString("email")
         );
     }
 }

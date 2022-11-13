@@ -1,16 +1,14 @@
 package com.customerService.model;
 
-public class Student {
+public class InternalCustomer {
     private Long id;
     private String firstName;
     private String lastName;
-    private String email;
 
-    public Student(Long id, String firstName, String lastName, String email) {
+    public InternalCustomer(Long id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
     }
 
     public Long getId() {
@@ -25,10 +23,6 @@ public class Student {
         return lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -39,9 +33,5 @@ public class Student {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }
